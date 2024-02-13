@@ -1,0 +1,26 @@
+minimum_cumulusci_version: '3.83.0'
+project:
+    name: CSDeceasedAutomations
+    package:
+        name: CSDeceasedAutomations
+        api_version: '59.0'
+    dependencies:
+        - github: 'https://github.com/SalesforceFoundation/NPSP'
+    git:
+    source_format: sfdx
+
+tasks:
+    robot:
+        options:
+            suites: robot/CSDeceasedAutomations/tests
+            options:
+                outputdir: robot/CSDeceasedAutomations/results
+
+    robot_testdoc:
+        options:
+            path: robot/CSDeceasedAutomations/tests
+            output: robot/CSDeceasedAutomations/doc/CSDeceasedAutomations_tests.html
+
+    run_tests:
+        options:
+            required_org_code_coverage_percent: 75
