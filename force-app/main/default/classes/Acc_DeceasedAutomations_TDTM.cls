@@ -56,6 +56,5 @@ global class Acc_DeceasedAutomations_TDTM extends npsp.TDTM_RunnableMutable {
         if(!String.isEmpty(DeceasedAutomationConstants.ACCOUNT_NAMING_CONTROL_FIELD)) {
             account.put(DeceasedAutomationConstants.ACCOUNT_NAMING_CONTROL_FIELD,'Name');
         }
-
     }
 }
