@@ -11,5 +11,13 @@
         "forceRelogin": false
       }
     }
+  },
+  "objectSettings": {
+    "opportunity": {
+      "defaultRecordType": "default"
+    },
+    "account": {
+      "defaultRecordType": "default"
+    }
   }
 }
