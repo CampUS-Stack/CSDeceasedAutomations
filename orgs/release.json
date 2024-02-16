@@ -1,6 +1,6 @@
 {
-  "orgName": "CSDeceasedAutomations - Release Test Org",
-  "edition": "Enterprise",
+  "orgName": "CSDeceasedAutomations - Dev Org",
+  "edition": "Developer",
   "settings": {
     "lightningExperienceSettings": {
       "enableS1DesktopEnabled": true
@@ -16,5 +16,17 @@
       "sessionSettings": {
         "forceRelogin": false
       }
-    }  }
+    }
+  },
+  "objectSettings": {
+    "opportunity": {
+      "defaultRecordType": "default"
+    },
+    "account": {
+      "defaultRecordType": "default"
+    },
+    "contact": {
+      "defaultRecordType": "default"
+    }
+  }
 }
