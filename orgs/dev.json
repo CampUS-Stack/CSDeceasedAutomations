@@ -24,6 +24,9 @@
     },
     "account": {
       "defaultRecordType": "default"
+    },
+    "contact": {
+      "defaultRecordType": "default"
     }
   }
 }

@@ -47,7 +47,6 @@ global class Con_DeceasedAutomations_TDTM extends npsp.TDTM_RunnableMutable {
                             Boolean.valueOf(oldContact.get(DeceasedAutomationConstants.CONTACT_PRIMARY_CHECKBOX)) &&
                     Boolean.valueOf(newContact.get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD)) <>
                             Boolean.valueOf(oldContact.get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD)) &&
-                    newContacts[i].RecordTypeId == DeceasedAutomationConstants.CONTACT_DECEASED_RECORDTYPE_ID &&
                     String.valueOf(newContacts[i].get(DeceasedAutomationConstants.DECEASED_CONTACT_ACCOUNT_LOOKUP)) != null) {
                 System.debug('New Contact AccountId: ' + newContacts[i].AccountId);
 
@@ -110,11 +109,15 @@ global class Con_DeceasedAutomations_TDTM extends npsp.TDTM_RunnableMutable {
     }
 
     private static void printInfo(Contact newContact, Contact oldContact) {
-        System.debug('New Contact RecordTypeId: ' + newContact.RecordTypeId);
+        if(DeceasedAutomationConstants.CONTACT_HAS_DECEASED_RECORD_TYPE){
+            System.debug('New Contact RecordTypeId: ' + newContact.get('RecordTypeId'));
+        }
         System.debug('Primary cbox: ' + Boolean.valueOf(newContact.get(DeceasedAutomationConstants.CONTACT_PRIMARY_CHECKBOX)));
         System.debug('old con Primary cbox: ' + Boolean.valueOf(oldContact.get(DeceasedAutomationConstants.CONTACT_PRIMARY_CHECKBOX)));
-        System.debug('deceased: ' + newContact.npsp__Deceased__c);
-        System.debug('rtypeid is deceased: ' + newContact.RecordTypeId == DeceasedAutomationConstants.CONTACT_DECEASED_RECORDTYPE_ID);
+        System.debug('deceased: ' + newContact.get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD));
+        if(DeceasedAutomationConstants.CONTACT_HAS_DECEASED_RECORD_TYPE) {
+            System.debug('rtypeid is deceased: ' + newContact.get('RecordTypeId') == DeceasedAutomationConstants.CONTACT_DECEASED_RECORDTYPE_ID);
+        }
         System.debug('contact lookup: ' + String.valueOf(newContact.get(DeceasedAutomationConstants.DECEASED_CONTACT_ACCOUNT_LOOKUP)));
     }
 
@@ -155,14 +158,16 @@ global class Con_DeceasedAutomations_TDTM extends npsp.TDTM_RunnableMutable {
         Map<Id, Contact> oldContactMap = new Map<Id, Contact>(oldConList);
         System.debug('Acc_ContactHandler_TDTM trigger fired Before Update');
         for (Integer i = 0; i < newContacts.size(); i++) {
-            System.debug('New Contact Deceased: ' + newContacts[i].get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD));
-            System.debug('Old Contact Deceased: ' + oldConList[i].get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD));
-            System.debug('New Contact Contact 1: ' + newContacts[i].get(DeceasedAutomationConstants.CONTACT_PRIMARY_CHECKBOX));
-            System.debug('New Contact Contact RecordTypeId: ' + newContacts[i].RecordTypeId);
-            System.debug('New Contact Contact Deceased Account: ' + newContacts[i].get(DeceasedAutomationConstants.DECEASED_CONTACT_ACCOUNT_LOOKUP));
-            // Trigger will fire if Deceased & Primary contact field checked on contact , Deceased Account should null and contact record type should not "Deceased".
             Contact newContact = newContacts[i];
             Contact oldContact = oldContactMap.get(newContact.Id);
+            System.debug('New Contact Deceased: ' + newContact.get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD));
+            System.debug('Old Contact Deceased: ' + oldContact.get(DeceasedAutomationConstants.CONTACT_DECEASED_FIELD));
+            System.debug('New Contact Contact 1: ' + newContact.get(DeceasedAutomationConstants.CONTACT_PRIMARY_CHECKBOX));
+            if(DeceasedAutomationConstants.CONTACT_HAS_DECEASED_RECORD_TYPE) {
+                System.debug('New Contact Contact RecordTypeId: ' + newContact.get('RecordTypeId'));
+            }
+            System.debug('New Contact Contact Deceased Account: ' + newContact.get(DeceasedAutomationConstants.DECEASED_CONTACT_ACCOUNT_LOOKUP));
+            // Trigger will fire if Deceased & Primary contact field checked on contact , Deceased Account should null and contact record type should not "Deceased".
 
             if (DeceasedAutomationConstants.CONTACT_HAS_DECEASED_RECORD_TYPE) {
                 setDeceasedRecordType(newContact);
